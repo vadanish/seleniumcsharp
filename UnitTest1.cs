@@ -29,7 +29,7 @@ namespace SeleniumTests
         public void TestGoogleSearch()
         {
             _driver.Navigate().GoToUrl("https://www.google.com");
-
+            Console.log("Test Started");
             // Ensure the search box is present and interactable
             var searchBox = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name("q")));
 
