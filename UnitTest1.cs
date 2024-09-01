@@ -28,10 +28,12 @@ namespace SeleniumTests
         [TestMethod]
         public void TestGoogleSearch()
         {
-            _driver.Navigate().GoToUrl("https://www.google.com");
-            Console.log("Test Started");
+            // Using the null-forgiving operator since Setup ensures these are not null
+            _driver!.Navigate().GoToUrl("https://www.google.com");
+            Console.WriteLine("Test Started");
+
             // Ensure the search box is present and interactable
-            var searchBox = _wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name("q")));
+            var searchBox = _wait!.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Name("q")));
 
             // Dismiss any overlays or pop-ups that could be blocking the element
             DismissOverlays();
@@ -53,10 +55,10 @@ namespace SeleniumTests
             try
             {
                 // Example: Dismiss Google search suggestion dropdown if it's present
-                var suggestionBox = _driver.FindElement(By.CssSelector("ul[role='listbox']"));
-                if (suggestionBox.Displayed)
+                var suggestionBox = _driver?.FindElement(By.CssSelector("ul[role='listbox']"));
+                if (suggestionBox?.Displayed == true)
                 {
-                    ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].style.display='none';", suggestionBox);
+                    ((IJavaScriptExecutor)_driver!).ExecuteScript("arguments[0].style.display='none';", suggestionBox);
                 }
             }
             catch (NoSuchElementException)
