@@ -1,0 +1,44 @@
+# Use an Ubuntu base image
+FROM ubuntu:20.04
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    tar \
+    gzip \
+    unzip \
+    sudo \
+    && apt-get clean
+
+# Download and install the .NET Core SDK
+#RUN curl -L https://download.visualstudio.microsoft.com/download/pr/0eeb36b1-31ae-45d0-8a8e-84e7c55ff015/f2f676d26c7112e69b75177ea3ea0db5/dotnet-sdk-6.0.400-linux-x64.tar.gz -o dotnet-sdk-6.0.400-linux-x64.tar.gz && \
+ #   mkdir -p /usr/share/dotnet && \
+  #  tar -zxf dotnet-sdk-6.0.400-linux-x64.tar.gz -C /usr/share/dotnet && \
+   # ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet && \
+    # rm dotnet-sdk-6.0.400-linux-x64.tar.gz
+
+# Create a new user and set up the environment
+RUN useradd -m myuser && \
+    echo "myuser:password" | chpasswd && \
+    echo "myuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the project files
+COPY . ./
+
+# Change ownership of the application directory
+RUN chown -R myuser:myuser /app
+
+# Switch to the new user
+USER myuser
+
+# Optionally: Restore and build your project
+# RUN dotnet restore
+# RUN dotnet build
+
+# Optionally: Run your application (if needed)
+# ENTRYPOINT ["dotnet", "YourApp.dll"]
+
