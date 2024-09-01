@@ -9,4 +9,15 @@ sudo apt-get update
 sudo apt-get install -y dotnet-sdk-8.0
 
 
+Chrome Installation 
+-----------------------
+sudo apt update
+
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+
+
+
 
